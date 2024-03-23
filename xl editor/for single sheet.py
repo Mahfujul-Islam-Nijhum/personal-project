@@ -43,13 +43,15 @@ empty = 0
 count = 1
 dic_store={}
 writecount = 1
+reject_count=1
 
 # the loop will end if it finds 100 consecutive rows containing nothing
-while empty < 100:
+while empty <100:
 # let the fun begin :-)
     # taking inputs
     # serial = take_from[f'a{count}'].value
-    membership = take_from[f'b{count}'].value
+    membership = take_from[f'c{count}'].value
+    voter_no = take_from[f'b{count}'].value
     name = take_from[f'a{count}'].value
 
     # removing unwanted items from the name
@@ -79,9 +81,9 @@ while empty < 100:
     except:
         pass
     
-    info = take_from[f'g{count}'].value
+    info = take_from[f'h{count}'].value
     dist = take_from[f'j{count}'].value
-    extra = str(take_from[f'g{count}'].value).strip()
+    extra = str(take_from[f'd{count}'].value).strip()
 
     # sorting the extra numbers according to different parameters
     if ', '  in extra:
@@ -136,6 +138,8 @@ while empty < 100:
                 extra[i] = '0' + extra[i]
             if len(extra[i]) == 12 and extra[i][-1] == '.':
                 extra[i] = extra[i][0:11]
+            if len(extra[i]) == 13 and extra[i][0] == '8':
+                extra[i] = extra[i][2:13]
             if len(extra[i]) == 12 and extra[i][-1] == ',':
                 extra[i] = extra[i][0:11]
             if len(extra[i]) == 12 and extra[i][0] == '`':
@@ -174,17 +178,23 @@ while empty < 100:
                     # write_to[f'd{writecount}'] = info
                     lala = 1
                 # write_to[f'a{writecount}'] = serial
-                write_to[f'b{writecount}'] = membership
-                write_to[f'c{writecount}'] = name
-                write_to[f'e{writecount}'] = i
-                write_to[f'f{writecount}'] = dist
+                write_to[f'a{writecount}'] = name
+                write_to[f'b{writecount}'] = voter_no
+                write_to[f'c{writecount}'] = membership
+                write_to[f'd{writecount}'] = i
+                # write_to[f'f{writecount}'] = dist
 
                 writecount += 1
 
         # # use the following else statment to see which individuals are being rejected 
         # # beacuse of not having any or valid numbers
-        # else:
-        #     print(count - 1, name, extra, numlis)
+        else:
+            for i in extra:
+                write_to[f'f{reject_count}'] = name
+                write_to[f'g{reject_count}'] = voter_no
+                write_to[f'h{reject_count}'] = membership
+                write_to[f'i{reject_count}'] = i
+                reject_count+=1
 
         # print(count) # to see how many rows has been processed
 
